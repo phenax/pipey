@@ -4,6 +4,11 @@
 
 import { getMethods, fromPairs, createMethod, compose, map, filter } from './utils';
 
+export const P = (value, { fns = [] } = {}) => ({
+    pipe: fn => P(value, { fns: fns.concat([fn]) }),
+    getValue: () => compose(...fns.reverse())(value),
+});
+
 // createPipes :: [String] -> Accessors
 export const createPipes = compose(
     fromPairs,
@@ -16,3 +21,5 @@ export const fromClassPrototype = compose(
     createPipes,
     getMethods,
 );
+
+export { compose };
