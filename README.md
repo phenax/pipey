@@ -1,6 +1,6 @@
 
 # Pipey
-Utility functions to convert class-based api's to parameter-based functions
+Utility functions to convert class-based api's to parameter-based functions compatible with functional point-free style of programming.
 
 [![CircleCI](https://img.shields.io/circleci/project/github/phenax/pipey/master.svg?style=for-the-badge)](https://circleci.com/gh/phenax/pipey)
 [![npm bundle size (minified + gzip)](https://img.shields.io/bundlephobia/minzip/pipey.svg?style=for-the-badge)](https://www.npmjs.com/package/pipey)
@@ -20,5 +20,55 @@ yarn add pipey
 
 #### Import it to your file
 ```js
-import Pipey from 'pipey';
+import { createPipes, fromClassPrototype } from 'pipey';
+```
+
+#### createPipes
+
+```js
+const { bork } = createPipes([ 'bork' ]);
+
+const dog = {
+    name: 'Doge',
+    bork(bork) {
+        return `${this.name} ${bork}!`.toUpperCase();
+    },
+};
+
+bork('Bork')(dog) // returns 'DOGE BORK!'
+```
+
+#### fromClassPrototype
+
+```js
+
+class Dog {
+    constructor(name) {
+        this.name = name;
+    }
+
+    bork(borkSound) {
+        return `${this.name} ${borkSound}!`.toUpperCase();
+    }
+}
+
+const { bork } = fromClassPrototype(Dog);
+
+const dog = new Dog('Doge');
+
+bork('Bork')(dog) // returns 'DOGE BORK!'
+```
+
+#### Using with collection methods
+
+* Working with dom methods
+```js
+import fromClassPrototype from 'pipey/fromClassPrototype';
+
+const { setAttribute } = fromClassPrototype(HTMLInputElement);
+const inputs = ['.js-input-name', '.js-input-email'];
+
+inputs
+    .map(selector => document.querySelector(selector))
+    .forEach(setAttribute('disabled', 'disabled'));
 ```
