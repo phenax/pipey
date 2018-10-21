@@ -1,0 +1,42 @@
+{
+  "name": "pipey",
+  "version": "0.0.2",
+  "description": "Utility functions to convert class-based api's to parameter-based functions",
+  "main": "index.js",
+  "repository": "https://github.com/phenax/pipey",
+  "author": "Akshay Nair <phenax5@gmail.com>",
+  "license": "MIT",
+  "keywords": [
+    "functional",
+    "functional-programming",
+    "fp",
+    "pipe",
+    "js"
+  ],
+  "scripts": {
+    "build": "babel src --out-dir build",
+    "watch": "yarn build --watch",
+    "test": "jest",
+    "test:ci": "jest",
+    "coverage": "jest --coverage",
+    "coverage:ci": "yarn coverage && codecov"
+  },
+  "babel": {
+    "presets": [
+      "@babel/preset-env"
+    ],
+    "plugins": [
+      "@babel/plugin-proposal-class-properties"
+    ]
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.1.0",
+    "@babel/core": "^7.1.0",
+    "@babel/plugin-proposal-class-properties": "^7.1.0",
+    "@babel/preset-env": "^7.1.0",
+    "babel-core": "^7.0.0-bridge",
+    "babel-jest": "^23.6.0",
+    "codecov": "^3.1.0",
+    "jest": "^23.6.0"
+  }
+}
