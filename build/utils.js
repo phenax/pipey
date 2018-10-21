@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.getMethods = exports.createMethod = exports.fromPairs = void 0;
+exports.filter = exports.map = exports.compose = exports.getMethods = exports.createMethod = exports.fromPairs = void 0;
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
 
@@ -41,17 +41,55 @@ var createMethod = function createMethod(method) {
       return obj[method].apply(obj, args);
     };
   };
-}; // getMethods :: Class -> [String]
+}; // isFunction :: * -> Bool
 
 
 exports.createMethod = createMethod;
+
+var isFunction = function isFunction(fn) {
+  return fn instanceof Function;
+}; // getMethods :: Class -> [String]
+
 
 var getMethods = function getMethods(Class) {
   return !Class || !Class.prototype ? [] : Object.getOwnPropertyNames(Class.prototype).filter(function (key) {
     return key !== 'constructor';
   }).filter(function (key) {
-    return Class.prototype[key] instanceof Function;
+    return isFunction(Class.prototype[key]);
   });
-};
+}; // compose :: (...Function) -> Function
+
 
 exports.getMethods = getMethods;
+
+var compose = function compose() {
+  for (var _len2 = arguments.length, fns = new Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
+    fns[_key2] = arguments[_key2];
+  }
+
+  return fns.reduce(function (a, b) {
+    return function () {
+      return a(b.apply(void 0, arguments));
+    };
+  });
+}; // map :: (a -> b) -> [a] -> [b]
+
+
+exports.compose = compose;
+
+var map = function map(fn) {
+  return function (arr) {
+    return arr.map(fn);
+  };
+}; // filter :: (a -> Bool) -> [a] -> [a]
+
+
+exports.map = map;
+
+var filter = function filter(fn) {
+  return function (arr) {
+    return arr.filter(fn);
+  };
+};
+
+exports.filter = filter;

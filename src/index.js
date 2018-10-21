@@ -2,16 +2,17 @@
 // type Accessors = Object Function
 // type Class = Function
 
-import { getMethods, fromPairs, createMethod } from './utils';
+import { getMethods, fromPairs, createMethod, compose, map, filter } from './utils';
 
 // createPipes :: [String] -> Accessors
-export const createPipes = methods =>
-    fromPairs(
-        methods
-            .filter(Boolean)
-            .map(method => [ method, createMethod(method) ])
-    );
+export const createPipes = compose(
+    fromPairs,
+    map(method => [ method, createMethod(method) ]),
+    filter(Boolean),
+);
 
 // fromClassPrototype :: Class -> Accessors
-export const fromClassPrototype = Class =>
-    createPipes(getMethods(Class));
+export const fromClassPrototype = compose(
+    createPipes,
+    getMethods,
+);
