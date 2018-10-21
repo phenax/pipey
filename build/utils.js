@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.filter = exports.map = exports.compose = exports.getMethods = exports.createMethod = exports.fromPairs = void 0;
+exports.getMethods = exports.createMethod = exports.fromPairs = exports.filter = exports.map = exports.compose = void 0;
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
 
@@ -17,54 +17,10 @@ function _iterableToArrayLimit(arr, i) { var _arr = []; var _n = true; var _d = 
 
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
-// fromPairs :: [[String, b]] -> Object b
-var fromPairs = function fromPairs(pairs) {
-  return pairs.reduce(function (acc, _ref) {
-    var _ref2 = _slicedToArray(_ref, 2),
-        k = _ref2[0],
-        v = _ref2[1];
-
-    return _objectSpread({}, acc, _defineProperty({}, k, v));
-  }, {});
-}; // createMethod :: String -> (...*) -> * -> *
-
-
-exports.fromPairs = fromPairs;
-
-var createMethod = function createMethod(method) {
-  return function () {
-    for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
-      args[_key] = arguments[_key];
-    }
-
-    return function (obj) {
-      return obj[method].apply(obj, args);
-    };
-  };
-}; // isFunction :: * -> Bool
-
-
-exports.createMethod = createMethod;
-
-var isFunction = function isFunction(fn) {
-  return fn instanceof Function;
-}; // getMethods :: Class -> [String]
-
-
-var getMethods = function getMethods(Class) {
-  return !Class || !Class.prototype ? [] : Object.getOwnPropertyNames(Class.prototype).filter(function (key) {
-    return key !== 'constructor';
-  }).filter(function (key) {
-    return isFunction(Class.prototype[key]);
-  });
-}; // compose :: (...Function) -> Function
-
-
-exports.getMethods = getMethods;
-
+// compose :: (...Function) -> Function
 var compose = function compose() {
-  for (var _len2 = arguments.length, fns = new Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
-    fns[_key2] = arguments[_key2];
+  for (var _len = arguments.length, fns = new Array(_len), _key = 0; _key < _len; _key++) {
+    fns[_key] = arguments[_key];
   }
 
   return fns.reduce(function (a, b) {
@@ -90,6 +46,52 @@ var filter = function filter(fn) {
   return function (arr) {
     return arr.filter(fn);
   };
-};
+}; // fromPairs :: [[String, b]] -> Object b
+
 
 exports.filter = filter;
+
+var fromPairs = function fromPairs(pairs) {
+  return pairs.reduce(function (acc, _ref) {
+    var _ref2 = _slicedToArray(_ref, 2),
+        k = _ref2[0],
+        v = _ref2[1];
+
+    return _objectSpread({}, acc, _defineProperty({}, k, v));
+  }, {});
+}; // createMethod :: String -> (...*) -> * -> *
+
+
+exports.fromPairs = fromPairs;
+
+var createMethod = function createMethod(method) {
+  return function () {
+    for (var _len2 = arguments.length, args = new Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
+      args[_key2] = arguments[_key2];
+    }
+
+    return function (obj) {
+      return obj[method].apply(obj, args);
+    };
+  };
+}; // isFunction :: * -> Bool
+
+
+exports.createMethod = createMethod;
+
+var isFunction = function isFunction(fn) {
+  return fn && fn instanceof Function;
+};
+
+var isMethod = function isMethod(Class) {
+  return function (key) {
+    return key !== 'constructor' && isFunction(Class.prototype[key]);
+  };
+}; // getMethods :: Class -> [String]
+
+
+var getMethods = function getMethods(Class) {
+  return !Class || !Class.prototype ? [] : compose(filter(isMethod(Class)), Object.getOwnPropertyNames)(Class.prototype);
+};
+
+exports.getMethods = getMethods;
