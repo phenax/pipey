@@ -63,7 +63,7 @@ bork('Bork')(dog) // returns 'DOGE BORK!'
 
 * Working with dom methods
 ```js
-import fromClassPrototype from 'pipey/fromClassPrototype';
+import { fromClassPrototype } from 'pipey';
 
 const { setAttribute } = fromClassPrototype(HTMLInputElement);
 const inputs = ['.js-input-name', '.js-input-email'];
