@@ -1,8 +1,12 @@
 
 import { fromPairs, createMethod } from './utils';
 
-// createPipes :: [String] -> Object Function
+// createPipes :: [String] -> Accessors
 const createPipes = methods =>
-    fromPairs(methods.filter(Boolean).map(method => [ method, createMethod(method) ]));
+    fromPairs(
+        methods
+            .filter(Boolean)
+            .map(method => [ method, createMethod(method) ])
+    );
 
 export default createPipes;

@@ -2,8 +2,7 @@
 import createPipes from './createPipes';
 import { getMethods } from './utils';
 
-const fromClassPrototype = Class => {
-    return createPipes(getMethods(Class));
-};
+// fromClassPrototype :: Class -> Accessors
+const fromClassPrototype = Class => createPipes(getMethods(Class));
 
 export default fromClassPrototype;
