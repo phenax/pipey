@@ -16,7 +16,7 @@
   "scripts": {
     "build": "babel src --out-dir build",
     "watch": "yarn build --watch",
-    "test": "jest",
+    "test": "jest --watch",
     "test:ci": "jest",
     "coverage": "jest --coverage",
     "coverage:ci": "yarn coverage && codecov"
