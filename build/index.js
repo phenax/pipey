@@ -3,21 +3,24 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-Object.defineProperty(exports, "createPipes", {
-  enumerable: true,
-  get: function get() {
-    return _createPipes.default;
-  }
-});
-Object.defineProperty(exports, "fromClassPrototype", {
-  enumerable: true,
-  get: function get() {
-    return _fromClassPrototype.default;
-  }
-});
+exports.fromClassPrototype = exports.createPipes = void 0;
 
-var _createPipes = _interopRequireDefault(require("./createPipes"));
+var _utils = require("./utils");
 
-var _fromClassPrototype = _interopRequireDefault(require("./fromClassPrototype"));
+// type Accessors = Object Function
+// type Class = Function
+// createPipes :: [String] -> Accessors
+var createPipes = function createPipes(methods) {
+  return (0, _utils.fromPairs)(methods.filter(Boolean).map(function (method) {
+    return [method, (0, _utils.createMethod)(method)];
+  }));
+}; // fromClassPrototype :: Class -> Accessors
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.createPipes = createPipes;
+
+var fromClassPrototype = function fromClassPrototype(Class) {
+  return createPipes((0, _utils.getMethods)(Class));
+};
+
+exports.fromClassPrototype = fromClassPrototype;

@@ -1,5 +1,5 @@
 
-import createPipes from '../src/createPipes';
+import { createPipes } from '../src';
 
 describe('createPipes', () => {
     it('should return an object with all method accessors', () => {

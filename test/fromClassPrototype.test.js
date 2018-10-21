@@ -1,5 +1,5 @@
 
-import fromClassPrototype from '../src/fromClassPrototype';
+import { fromClassPrototype } from '../src';
 
 class Dog {
     constructor(name) {
