@@ -1,5 +1,5 @@
 
-# Pipey
+# Pipey [Work In Progress]
 Utility functions to convert class-based api's to parameter-based functions compatible with functional point-free style of programming.
 
 [![CircleCI](https://img.shields.io/circleci/project/github/phenax/pipey/master.svg?style=for-the-badge)](https://circleci.com/gh/phenax/pipey)
