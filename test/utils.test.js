@@ -1,5 +1,5 @@
 
-import { compose, getMethods, fromPairs, createMethod } from '../src/utils';
+import { compose, getMethods, fromPairs } from '../src/utils';
 
 describe('Utils', () => {
 
@@ -43,23 +43,7 @@ describe('Utils', () => {
         });
     });
 
-    // describe('createMethod', () => {
-        
-    //     it('should create methods out of objects', () => {
-    //         const obj = { mul2: v => v * 2 };
-    //         expect(createMethod('mul2')(22)(obj)).toEqual(44);
-    //     });
-
-    //     it('should create context-independent methods', () => {
-    //         const obj = {
-    //             MULTIPLIER: 2,
-    //             mul2(v) { return v * this.MULTIPLIER; }
-    //         };
-    //         expect(createMethod('mul2')(22)(obj)).toEqual(44);
-    //     });
-    // });
-
-    describe('getMethods', () => {
+    describe('fromPairs', () => {
 
         it('should return an object from pairs', () => {
             const pairs = [
