@@ -55,7 +55,7 @@ const getFirstNames = names =>
 getFirstNames([ '', null, 'Akshay Nair', 'John Doe', 'Bruce Fucking Lee' ]); // Returns ['Akshay', 'John', 'Bruce']
 ```
 
-#### Example use cases
+### Example use cases
 
 * Using with the amazing pipe operator
 ```js
