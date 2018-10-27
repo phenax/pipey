@@ -1,6 +1,6 @@
 
-# Pipey [Work In Progress]
-Utility functions to convert class-based api's to parameter-based functions compatible with functional point-free style of programming.
+# Pipey
+Utility functions to convert instance methods's to context-free functions ready for use with [esnext pipeline operator](https://github.com/tc39/proposal-pipeline-operator) and point-free functional programming.
 
 [![CircleCI](https://img.shields.io/circleci/project/github/phenax/pipey/master.svg?style=for-the-badge)](https://circleci.com/gh/phenax/pipey)
 [![npm bundle size (minified + gzip)](https://img.shields.io/bundlephobia/minzip/pipey.svg?style=for-the-badge)](https://www.npmjs.com/package/pipey)
@@ -20,51 +20,42 @@ yarn add pipey
 
 #### Import it to your file
 ```js
-import { createPipes, fromClassPrototype } from 'pipey';
-```
-
-#### createPipes
-
-```js
-const { bork } = createPipes([ 'bork' ]);
-
-const dog = {
-    name: 'Doge',
-    bork(bork) {
-        return `${this.name} ${bork}!`.toUpperCase();
-    },
-};
-
-bork('Bork')(dog) // returns 'DOGE BORK!'
+import { createPipes, fromClassPrototype, compose } from 'pipey';
+// Note: compose is a regular lodash-like compose function
 ```
 
 #### fromClassPrototype
 
 ```js
+const { map, filter } = fromClassPrototype(Array);
 
-class Dog {
-    constructor(name) {
-        this.name = name;
-    }
+const doubleNumbers = map(x => x * 2);
 
-    bork(borkSound) {
-        return `${this.name} ${borkSound}!`.toUpperCase();
-    }
-}
+const doubleEvenNumbers = compose(doubleNumbers, filter(x => x % 2));
 
-const { bork } = fromClassPrototype(Dog);
+doubleEvenNumbers([ 2, 3, 4, 5 ]); // Returns [ 4, 8 ]
+```
 
-const dog = new Dog('Doge');
+#### createPipes
 
-bork('Bork')(dog) // returns 'DOGE BORK!'
+```js
+const { map, filter, split } = createPipes(['map', 'filter', 'split']);
+const head = ([ first ]) => first;
+const compact = filter(Boolean);
+
+const getFirstNames = names =>
+    names
+        |> compact
+        |> map(split(' '))
+        |> map(head);
+
+getFirstNames([ '', null, 'Akshay Nair', 'John Doe', 'Bruce Fucking Lee' ]); // Returns ['Akshay', 'John', 'Bruce']
 ```
 
 #### Example use cases
 
 * Using with the amazing pipe operator
 ```js
-import { fromClassPrototype } from 'pipey';
-
 const { map, filter, reduce } = fromClassPrototype(Array);
 
 const fromPairs = reduce((acc, [ k, v ]) => ({ ...acc, [k]: v }), {});
@@ -80,15 +71,13 @@ getInputData(); // Returns something like { email: 'han.solo@gmail.com', name: '
 
 * Working with collection methods
 ```js
-// compose is the regular lodash-like compose function
-import { createPipes, fromClassPrototype, compose } from 'pipey';
-
 // Two ways to extract methods out (createPipes & fromClassPrototype)
 const { map, filter } = fromClassPrototype(Array);
 const { split } = createPipes(['split']);
+const head = ([ first ]) => first;
 
 const getFirstNames = compose(
-    map(([ firstName ]) => firstName),
+    map(head),
     map(split(' ')),
     filter(Boolean),
 );
@@ -99,12 +88,11 @@ getFirstNames([ '', null, 'Akshay Nair', 'John Doe', 'Bruce Fucking Lee' ]); // 
 
 * Working with dom methods
 ```js
-import { fromClassPrototype } from 'pipey';
-
+const { map, forEach } = fromClassPrototype(Array);
 const { setAttribute } = fromClassPrototype(HTMLInputElement);
 const inputs = ['.js-input-name', '.js-input-email'];
 
 inputs
-    .map(selector => document.querySelector(selector))
-    .forEach(setAttribute('disabled', 'disabled'));
+    |> map(selector => document.querySelector(selector))
+    |> forEach(setAttribute('disabled', 'disabled'));
 ```
