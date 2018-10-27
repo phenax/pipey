@@ -1,6 +1,6 @@
 {
   "name": "pipey",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Utility functions to convert class-based api's to parameter-based functions",
   "main": "index.js",
   "repository": "https://github.com/phenax/pipey",
@@ -29,9 +29,12 @@
     ],
     "plugins": [
       "@babel/plugin-proposal-class-properties",
-      ["@babel/plugin-proposal-pipeline-operator", {
-        "proposal": "minimal"
-      }]
+      [
+        "@babel/plugin-proposal-pipeline-operator",
+        {
+          "proposal": "minimal"
+        }
+      ]
     ]
   },
   "devDependencies": {
