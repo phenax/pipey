@@ -1,5 +1,5 @@
 
-import { fromClassPrototype } from '../src';
+import { fromClassPrototype, compose } from '../src';
 
 class Dog {
     constructor(name) {
@@ -53,5 +53,25 @@ describe('fromClassPrototype', () => {
         const { bork } = fromClassPrototype(Dog);
         const dog = new Dog('Fluffy');
         expect(bork('Bork Bork')(dog)).toBe('FLUFFY BORK BORK!');
+    });
+
+    it('should extract functions out of collection methods', () => {
+        const { map, filter, sort, forEach } = fromClassPrototype(Array);
+        const head = ([x]) => x;
+        const echo = jest.fn();
+
+        const tellDogsToFetch = compose(
+            forEach(x => echo(x)),
+            map(name => `${name}, fetch!`),
+            sort(),
+            filter(Boolean),
+            map(dog => dog.name),
+        );
+
+        const dogs = [ new Dog(), new Dog('Fluffy'), new Dog('Tuffy'), new Dog('Jeffry'), new Dog('Terminator'), ];
+        const expectedResult = ['Fluffy, fetch!', 'Jeffry, fetch!', 'Terminator, fetch!', 'Tuffy, fetch!'];
+        tellDogsToFetch(dogs);
+        expect(echo).toBeCalledTimes(4);
+        expect(echo.mock.calls.map(head)).toEqual(expectedResult);
     });
 });
