@@ -29,10 +29,9 @@ import { createPipe, createPipes, fromClassPrototype, compose } from 'pipey';
 const { map, filter } = fromClassPrototype(Array);
 
 const doubleNumbers = map(x => x * 2);
+const doubleOddNumbers = compose(doubleNumbers, filter(x => x % 2));
 
-const doubleEvenNumbers = compose(doubleNumbers, filter(x => x % 2));
-
-doubleEvenNumbers([ 2, 3, 4, 5 ]); // Returns [ 4, 8 ]
+doubleOddNumbers([ 2, 3, 4, 5 ]); // Returns [ 6, 10 ]
 ```
 
 #### createPipe
