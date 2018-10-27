@@ -59,7 +59,27 @@ const dog = new Dog('Doge');
 bork('Bork')(dog) // returns 'DOGE BORK!'
 ```
 
-#### Using with collection methods
+#### Using with the javascript standard library
+
+* Working with collection methods
+```js
+// compose is the regular lodash-like compose function
+import { createPipes, fromClassPrototype, compose } from 'pipey';
+
+// Two ways to extract methods out (createPipes & fromClassPrototype)
+const { map, filter } = fromClassPrototype(Array);
+const { split } = createPipes(['split']);
+
+const getFirstNames = compose(
+    map(([ firstName ]) => firstName),
+    map(split(' ')),
+    filter(Boolean),
+);
+
+getFirstNames([ '', null, 'Akshay Nair', 'John Doe', 'Bruce Fucking Lee' ]); // Returns ['Akshay', 'John', 'Bruce']
+
+```
+
 
 * Working with dom methods
 ```js
