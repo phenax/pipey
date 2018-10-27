@@ -1,4 +1,4 @@
-import { getMethods, fromPairs, compose, createMethod } from './utils';
+import { getMethods, compose, createMethod } from './utils';
 
 // type Accessor = (a) -> Object ((a) -> b) -> b
 // type Class = Function
@@ -9,11 +9,11 @@ export const createPipe = method => (...args) => obj => obj[method].apply(obj, a
 // This is beautiful. My library in action.
 const map = createPipe('map');
 const filter = createPipe('filter');
+const reduce = createPipe('reduce');
 
 // createPipes :: [String] -> Object Accessor
 export const createPipes = compose(
-    fromPairs,
-    map(method => [method, createPipe(method)]),
+    reduce((acc, method) => ({ ...acc, [method]: createPipe(method) }), {}),
     filter(Boolean),
 );
 

@@ -1,5 +1,5 @@
 
-import { compose, getMethods, fromPairs } from '../src/utils';
+import { compose, getMethods } from '../src/utils';
 
 describe('Utils', () => {
 
@@ -40,20 +40,6 @@ describe('Utils', () => {
             expect(getMethods(null)).toEqual([]);
             expect(getMethods(1)).toEqual([]);
             expect(getMethods('')).toEqual([]);
-        });
-    });
-
-    describe('fromPairs', () => {
-
-        it('should return an object from pairs', () => {
-            const pairs = [
-                [ 'a', 'b' ],
-                [ 'c', 'd' ],
-            ];
-            expect(fromPairs(pairs)).toEqual({
-                a: 'b',
-                c: 'd',
-            });
         });
     });
 });
