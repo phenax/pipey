@@ -20,12 +20,11 @@ yarn add pipey
 
 #### Import it to your file
 ```js
-import { createPipes, fromClassPrototype, compose } from 'pipey';
+import { createPipe, createPipes, fromClassPrototype, compose } from 'pipey';
 // Note: compose is a regular lodash-like compose function
 ```
 
 #### fromClassPrototype
-
 ```js
 const { map, filter } = fromClassPrototype(Array);
 
@@ -36,8 +35,13 @@ const doubleEvenNumbers = compose(doubleNumbers, filter(x => x % 2));
 doubleEvenNumbers([ 2, 3, 4, 5 ]); // Returns [ 4, 8 ]
 ```
 
-#### createPipes
+#### createPipe
+```js
+const forEach = createPipe('forEach');
+forEach(x => console.log(x))([ 1, 2, 3, 4 ]); // Logs 1 2 3 4
+```
 
+#### createPipes
 ```js
 const { map, filter, split } = createPipes(['map', 'filter', 'split']);
 const head = ([ first ]) => first;
