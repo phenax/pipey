@@ -59,11 +59,11 @@ const dog = new Dog('Doge');
 bork('Bork')(dog) // returns 'DOGE BORK!'
 ```
 
-#### Use cases
+#### Example use cases
 
 * Using with the amazing pipe operator
 ```js
-import { createPipes } from 'pipey';
+import { fromClassPrototype } from 'pipey';
 
 const { map, filter, reduce } = fromClassPrototype(Array);
 
