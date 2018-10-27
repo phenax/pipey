@@ -59,7 +59,24 @@ const dog = new Dog('Doge');
 bork('Bork')(dog) // returns 'DOGE BORK!'
 ```
 
-#### Using with the javascript standard library
+#### Use cases
+
+* Using with the amazing pipe operator
+```js
+import { createPipes } from 'pipey';
+
+const { map, filter, reduce } = fromClassPrototype(Array);
+
+const fromPairs = reduce((acc, [ k, v ]) => ({ ...acc, [k]: v }), {});
+
+const getInputData = () =>
+    [...document.querySelectorAll('.js-input')]
+        |> map($input => [ $input.name, $input.value ])
+        |> filter(([_, value]) => value)
+        |> fromPairs;
+
+getInputData(); // Returns something like { email: 'han.solo@gmail.com', name: 'Han Solo' }
+```
 
 * Working with collection methods
 ```js
@@ -77,7 +94,6 @@ const getFirstNames = compose(
 );
 
 getFirstNames([ '', null, 'Akshay Nair', 'John Doe', 'Bruce Fucking Lee' ]); // Returns ['Akshay', 'John', 'Bruce']
-
 ```
 
 

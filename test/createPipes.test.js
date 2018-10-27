@@ -1,5 +1,5 @@
 
-import { createPipes } from '../src';
+import { createPipes, compose } from '../src';
 
 describe('createPipes', () => {
     it('should return an object with all method accessors', () => {
@@ -30,6 +30,24 @@ describe('createPipes', () => {
                 return `${this.name} ${bork}!`.toUpperCase();
             },
         };
+
         expect(bork('Bork Bork')(dog)).toBe('DOGE BORK BORK!');
+    });
+
+    it('should work with pipe operator', () => {
+        // Two ways to extract methods out (createPipes & fromClassPrototype)
+        const { map, filter } = createPipes(['map', 'filter']);
+        const { split } = createPipes(['split']);
+        const head = ([fst]) => fst;
+        const compact = filter(Boolean);
+
+        const getFirstNames = names =>
+            names
+                |> compact
+                |> map(split(' '))
+                |> map(head);
+
+        const result = getFirstNames([ '', 'Akshay Nair', null, 'John Doe', 'Bruce Fucking Lee' ]);
+        expect(result).toEqual(['Akshay', 'John', 'Bruce']);
     });
 });

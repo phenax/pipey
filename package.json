@@ -26,13 +26,17 @@
       "@babel/preset-env"
     ],
     "plugins": [
-      "@babel/plugin-proposal-class-properties"
+      "@babel/plugin-proposal-class-properties",
+      ["@babel/plugin-proposal-pipeline-operator", {
+        "proposal": "minimal"
+      }]
     ]
   },
   "devDependencies": {
     "@babel/cli": "^7.1.0",
     "@babel/core": "^7.1.0",
     "@babel/plugin-proposal-class-properties": "^7.1.0",
+    "@babel/plugin-proposal-pipeline-operator": "^7.0.0",
     "@babel/preset-env": "^7.1.0",
     "babel-core": "^7.0.0-bridge",
     "babel-jest": "^23.6.0",
