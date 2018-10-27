@@ -8,9 +8,12 @@
   "license": "MIT",
   "keywords": [
     "functional",
+    "pipeline",
+    "pipeline-operator",
+    "point-free",
+    "pipe",
     "functional-programming",
     "fp",
-    "pipe",
     "js"
   ],
   "scripts": {
