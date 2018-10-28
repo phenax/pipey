@@ -91,11 +91,12 @@ getFirstNames([ '', null, 'Akshay Nair', 'John Doe', 'Bruce Fucking Lee' ]); // 
 
 * Working with dom methods
 ```js
-const { map, forEach } = fromClassPrototype(Array);
+const { forEach, join } = fromClassPrototype(Array);
 const { setAttribute } = fromClassPrototype(HTMLInputElement);
 const inputs = ['.js-input-name', '.js-input-email'];
 
 inputs
-    |> map(selector => document.querySelector(selector))
+    |> join(', ')
+    |> (selector => document.querySelectorAll(selector))
     |> forEach(setAttribute('disabled', 'disabled'));
 ```
