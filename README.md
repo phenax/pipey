@@ -1,6 +1,6 @@
 
 # Pipey
-Utility functions to convert instance methods's to context-free functions ready for use with [esnext pipeline operator](https://github.com/tc39/proposal-pipeline-operator) and point-free functional programming.
+Utility functions to convert instance methods's to context-free functions ready for use with [esnext pipeline operator](https://github.com/tc39/proposal-pipeline-operator) and point-free functional programming. Convert any `x => x.whatever(...args)` to `whatever(...arg)(x)`.
 
 [![CircleCI](https://img.shields.io/circleci/project/github/phenax/pipey/master.svg?style=for-the-badge)](https://circleci.com/gh/phenax/pipey)
 [![npm bundle size (minified + gzip)](https://img.shields.io/bundlephobia/minzip/pipey.svg?style=for-the-badge)](https://www.npmjs.com/package/pipey)
