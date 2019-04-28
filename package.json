@@ -1,6 +1,6 @@
 {
   "name": "pipey",
-  "version": "0.0.4",
+  "version": "1.0.0-alpha.0",
   "description": "Utility functions to convert class-based api's to parameter-based functions",
   "main": "index.js",
   "repository": "https://github.com/phenax/pipey",
