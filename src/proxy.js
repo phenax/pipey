@@ -10,7 +10,7 @@ function evaluate(prop, obj, ...args) {
       return evaluator(prop, obj, ...args);
 
   if (typeof obj[prop] !== 'function')
-    throw new Error(`${prop} is not a function in ${obj}`);
+    throw new Error(`${prop} method not found on ${obj}`);
   return obj[prop](...args);
 }
 

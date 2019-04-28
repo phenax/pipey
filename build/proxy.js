@@ -28,7 +28,7 @@ function evaluate(prop, obj) {
     if (pred.apply(void 0, [prop, obj].concat(args))) return evaluator.apply(void 0, [prop, obj].concat(args));
   }
 
-  if (typeof obj[prop] !== 'function') throw new Error("".concat(prop, " is not a function in ").concat(obj));
+  if (typeof obj[prop] !== 'function') throw new Error("".concat(prop, " method not found on ").concat(obj));
   return obj[prop].apply(obj, args);
 }
 

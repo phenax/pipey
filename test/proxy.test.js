@@ -13,6 +13,16 @@ describe('Proxy api', () => {
     expect(slugifyAll([ 'Hello world', 'nicety nice' ])).toEqual([ 'Hello-world', 'nicety-nice' ]);
   });
 
+  it('should throw error if method is not found',  () => {
+    const fn = _.nonExistantMethod(1);
+    expect(() => fn({})).toThrowError();
+    try {
+      fn({});
+    } catch(e) {
+      expect(e.message).toBe('nonExistantMethod method not found on [object Object]');
+    }
+  });
+
   it('should work in cobination', () => {
     const getInitials = compose(
       _.join(''),
