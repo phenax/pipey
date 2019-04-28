@@ -9,22 +9,21 @@ Utility functions to convert instance methods's to context-free functions ready 
 
 [Read the documentation for more information](https://github.com/phenax/pipey/tree/master/docs)
 
-## Install
 
-#### To add the project to your project
+### Install it
 ```bash
 yarn add pipey
 ```
 
-## Usage
-
-#### Import it to your file
+### Import it to your file
 ```js
 import { createPipe, createPipes, fromClassPrototype, compose } from 'pipey';
 // Note: compose is a regular lodash-like compose function
+
+import _ from 'pipey/proxy'; // For proxy-based api
 ```
 
-#### fromClassPrototype
+### fromClassPrototype
 ```js
 const { map, filter } = fromClassPrototype(Array);
 
@@ -34,13 +33,13 @@ const doubleOddNumbers = compose(doubleNumbers, filter(x => x % 2));
 doubleOddNumbers([ 2, 3, 4, 5 ]); // Returns [ 6, 10 ]
 ```
 
-#### createPipe
+### createPipe
 ```js
 const forEach = createPipe('forEach');
 forEach(x => console.log(x))([ 1, 2, 3, 4 ]); // Logs 1 2 3 4
 ```
 
-#### createPipes
+### createPipes
 ```js
 const { map, filter, split } = createPipes(['map', 'filter', 'split']);
 const head = ([ first ]) => first;
@@ -55,6 +54,24 @@ const getFirstNames = names =>
 getFirstNames([ '', null, 'Akshay Nair', 'John Doe', 'Bruce Fucking Lee' ]); // Returns ['Akshay', 'John', 'Bruce']
 ```
 
+### Proxy based api
+This will generate the required methods on runtime using the [`Proxy` api](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Proxy)
+
+Because this uses the `Proxy` api with dynamic properties, you have to use [`babel-plugin-proxy`](https://www.npmjs.com/package/babel-plugin-proxy) to extend support to older browsers.
+
+```js
+import _ from 'pipey/proxy';
+
+const getInitials = compose(
+    _.join(''),
+    _.map(_.charAt(0)),
+    _.split(' '),
+    _.$prop('name'),
+);
+
+getInitials({ name: 'Akshay Nair' }) === 'AN';
+```
+
 ### Example use cases
 
 * Using with the amazing pipe operator
@@ -64,10 +81,11 @@ const { map, filter, reduce } = fromClassPrototype(Array);
 const fromPairs = reduce((acc, [ k, v ]) => ({ ...acc, [k]: v }), {});
 
 const getInputData = () =>
-    [...document.querySelectorAll('.js-input')]
+    document.querySelectorAll('.js-input')
         |> map($input => [ $input.name, $input.value ])
         |> filter(([_, value]) => value)
-        |> fromPairs;
+        |> fromPairs
+        |> Array.from;
 
 getInputData(); // Returns something like { email: 'han.solo@gmail.com', name: 'Han Solo' }
 ```
