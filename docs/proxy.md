@@ -23,6 +23,8 @@ getInitials({ name: 'Akshay Nair' }) === 'AN';
 
 
 ## Plugins
+Plugins are evaluated before the check to call the method so plugins are prioritized higher than object methods.
+So, to avoid name collisions, we add a `$` before plugin names as a convention.
 
 #### `$prop` plugin
 ```js
@@ -45,6 +47,13 @@ city === 'Gotham'
 ```
 
 #### Define a custom plugin
+Just like the $prop plugin, you can create your own ones. The `$` before plugin names is a convention to be followed to avoid name collisions.
+
+```haskell
+data Args = Args (String, Value, ...*);
+definePlugin :: (Args -> Boolean, Args -> *);
+```
+
 ```js
 import { definePlugin } from 'pipey/proxy';
 
@@ -55,6 +64,14 @@ definePlugin(
 );
 ```
 
+Here is what the pre-defined `$prop` plugin definition looks like...
+[Note: You don't have to define this as it comes out of the box]
+```js
+definePlugin(
+  methodName => methodName === '$prop',
+  (_, obj, propName, defaultVal) => obj !== undefined && propName in obj ? obj[propName] : defaultVal,
+);
+```
 
 ## Example
 
