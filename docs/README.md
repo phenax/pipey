@@ -22,7 +22,7 @@ import _ from 'pipey/proxy';
 
 ## API Reference
 
-* [fromClassPrototype](./docs/fromClassPrototype.md)
-* [createPipe](./docs/createPipe.md)
-* [createPipes](./docs/createPipes.md)
-* [Proxy based api](./docs/proxy.md)
+* [fromClassPrototype](./fromClassPrototype.md)
+* [createPipe](./createPipe.md)
+* [createPipes](./createPipes.md)
+* [Proxy based api](./proxy.md)
