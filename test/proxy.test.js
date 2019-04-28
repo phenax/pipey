@@ -16,7 +16,7 @@ describe('Proxy api', () => {
   it('should work in cobination', () => {
     const getInitials = compose(
       _.join(''),
-      _.map(([ h ]) => h),
+      _.map(_.charAt(0)),
       _.split(' '),
       _.$prop('name'),
     );

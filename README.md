@@ -22,6 +22,8 @@ yarn add pipey
 ```js
 import { createPipe, createPipes, fromClassPrototype, compose } from 'pipey';
 // Note: compose is a regular lodash-like compose function
+
+import _ from 'pipey/proxy'; // For proxy-based api
 ```
 
 #### fromClassPrototype
@@ -53,6 +55,24 @@ const getFirstNames = names =>
         |> map(head);
 
 getFirstNames([ '', null, 'Akshay Nair', 'John Doe', 'Bruce Fucking Lee' ]); // Returns ['Akshay', 'John', 'Bruce']
+```
+
+#### Proxy based api
+This will generate the required methods on runtime using the [`Proxy` api](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Proxy)
+
+Because this uses the `Proxy` api with dynamic properties, you have to use [`babel-plugin-proxy`](https://www.npmjs.com/package/babel-plugin-proxy) to extend support to older browsers.
+
+```js
+import _ from 'pipey/proxy';
+
+const getInitials = compose(
+  _.join(''),
+  _.map(_.charAt(0)),
+  _.split(' '),
+  _.$prop('name'),
+);
+
+getInitials({ name: 'Akshay Nair' }) === 'AN';
 ```
 
 ### Example use cases
