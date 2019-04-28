@@ -46,27 +46,26 @@ const head = ([ first ]) => first;
 const compact = filter(Boolean);
 
 const getFirstNames = names =>
-    names
-        |> compact
-        |> map(split(' '))
-        |> map(head);
+  names
+    |> compact
+    |> map(split(' '))
+    |> map(head);
 
 getFirstNames([ '', null, 'Akshay Nair', 'John Doe', 'Bruce Fucking Lee' ]); // Returns ['Akshay', 'John', 'Bruce']
 ```
 
 ### Proxy based api
-This will generate the required methods on runtime using the [`Proxy` api](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Proxy)
-
-Because this uses the `Proxy` api with dynamic properties, you have to use [`babel-plugin-proxy`](https://www.npmjs.com/package/babel-plugin-proxy) to extend support to older browsers.
+A proxy based alternative api for pipey
+[Read the documentation](https://github.com/phenax/pipey/tree/master/docs/proxy.md)
 
 ```js
 import _ from 'pipey/proxy';
 
 const getInitials = compose(
-    _.join(''),
-    _.map(_.charAt(0)),
-    _.split(' '),
-    _.$prop('name'),
+  _.join(''),
+  _.map(_.charAt(0)),
+  _.split(' '),
+  _.$prop('name'), // $prop is a pre-defined plugin
 );
 
 getInitials({ name: 'Akshay Nair' }) === 'AN';
@@ -78,14 +77,12 @@ getInitials({ name: 'Akshay Nair' }) === 'AN';
 ```js
 const { map, filter, reduce } = fromClassPrototype(Array);
 
-const fromPairs = reduce((acc, [ k, v ]) => ({ ...acc, [k]: v }), {});
-
 const getInputData = () =>
-    document.querySelectorAll('.js-input')
-        |> map($input => [ $input.name, $input.value ])
-        |> filter(([_, value]) => value)
-        |> fromPairs
-        |> Array.from;
+  document.querySelectorAll('.js-input')
+    |> map($input => [ $input.name, $input.value ])
+    |> filter(([_, value]) => value)
+    |> Object.fromEntries
+    |> Array.from;
 
 getInputData(); // Returns something like { email: 'han.solo@gmail.com', name: 'Han Solo' }
 ```
@@ -95,12 +92,11 @@ getInputData(); // Returns something like { email: 'han.solo@gmail.com', name: '
 // Two ways to extract methods out (createPipes & fromClassPrototype)
 const { map, filter } = fromClassPrototype(Array);
 const { split } = createPipes(['split']);
-const head = ([ first ]) => first;
 
 const getFirstNames = compose(
-    map(head),
-    map(split(' ')),
-    filter(Boolean),
+  map(xs => xs[0]),
+  map(split(' ')),
+  filter(Boolean),
 );
 
 getFirstNames([ '', null, 'Akshay Nair', 'John Doe', 'Bruce Fucking Lee' ]); // Returns ['Akshay', 'John', 'Bruce']
@@ -114,7 +110,7 @@ const { setAttribute } = fromClassPrototype(HTMLInputElement);
 const inputs = ['.js-input-name', '.js-input-email'];
 
 inputs
-    |> join(', ')
-    |> (selector => document.querySelectorAll(selector))
-    |> forEach(setAttribute('disabled', 'disabled'));
+  |> join(', ')
+  |> (selector => document.querySelectorAll(selector))
+  |> forEach(setAttribute('disabled', 'disabled'));
 ```
